@@ -1,24 +1,121 @@
-# MLOps Practice: Sentiment Analysis on IMDB Dataset
+# IMDb Sentiment Analysis MLOps Pipeline
 
-This project is part of our MLOps course, focusing on the end-to-end lifecycle of an NLP model—from data handling and pipeline orchestration to reproducibility and deployment.
-
-## Project Structure
-- `data/`: Contains raw and processed data (managed by DVC).
-- `src/`: Core Python scripts for data cleaning, preprocessing, and model training.
-- `notebooks/`: Exploratory Data Analysis (EDA) and initial model experiments.
-- `airflow/`: DAGs and configuration files for pipeline orchestration.
-
-## Key Technologies
-- **Git**: Version control for code.
-- **DVC**: Version control for large datasets.
-- **Airflow**: Pipeline orchestration.
-- **Python (Scikit-Learn/Pandas)**: NLP processing and model building.
-
-## Reproducibility
-To ensure experiments are reproducible:
-1. Initialize DVC: `dvc init`
-2. Pull data: `dvc pull`
-3. Run the pipeline: (Instructions to be updated)
+This project is part of a university MLOps course focused on building an end-to-end machine learning workflow for sentiment analysis using the IMDb movie reviews dataset.
 
 ---
-*Developed as part of the MLOps semester project.*
+
+# Project Goals
+
+The goal of this project is not only to train a machine learning model, but also to explore key MLOps concepts such as:
+
+- Reproducibility
+- Data Versioning
+- Workflow Orchestration
+- Containerization
+- API Deployment
+- Team Collaboration
+
+---
+
+# Technologies Used
+
+- Git & GitHub
+- DVC
+- Apache Airflow
+- FastAPI
+- Docker
+- Scikit-learn
+- Pandas
+- NLTK
+
+---
+
+# Project Architecture
+
+IMDb Dataset
+↓
+DVC Tracking
+↓
+Airflow Pipeline
+↓
+Preprocessing
+↓
+Feature Engineering
+↓
+Model Training
+↓
+FastAPI API
+↓
+Docker Container
+
+---
+
+# Project Structure
+
+```text
+imdb-mlops/
+│
+├── airflow/
+│   └── dags/
+│
+├── data/
+│   ├── raw/
+│   └── processed/
+│
+├── models/
+│
+├── notebooks/
+│
+├── src/
+│
+├── app.py
+├── Dockerfile
+├── requirements.txt
+├── README.md
+```
+
+# DVC Usage
+
+Initialize DVC:
+
+```bash
+dvc init
+```
+
+Track dataset:
+
+```bash
+dvc add data/raw/IMDB-Dataset.csv
+```
+
+# Docker Usage
+
+Build image:
+
+```bash
+docker build -t imdb-sentiment .
+```
+
+Run container:
+
+```bash
+docker run -p 8000:8000 imdb-sentiment
+```
+
+# API Usage
+
+Run API locally:
+
+```bash
+uvicorn app:app --reload
+```
+
+Swagger UI:
+
+```text
+http://localhost:8000/docs
+```
+
+---
+
+Developed as part of the Special Topics MLOps course project.

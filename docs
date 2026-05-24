@@ -1,0 +1,16 @@
+ساخت Docker Image
+
+داخل ترمینال:
+
+docker build -t imdb-sentiment .
+اجرای کانتینر
+docker run -p 8000:8000 imdb-sentiment
+تست API
+
+مرورگر:
+
+http://localhost:8000
+
+یا Swagger UI:
+
+http://localhost:8000/docs
