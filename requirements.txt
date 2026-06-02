@@ -6,3 +6,5 @@ nltk
 joblib
 numpy
 scipy
+prefect
+pyyaml
