@@ -1,0 +1,13 @@
+# Settings for IMDB MLOps Pipeline
+data:
+  raw_path: "data/raw/IMDB-Dataset.csv"
+
+paths:
+  model_dir: "models"
+  model_name: "sentiment_model.pkl"
+  vectorizer_name: "tfidf_vectorizer.pkl"
+
+params:
+  test_size: 0.2
+  random_state: 42
+  max_features: 5000

@@ -3,7 +3,7 @@
     archive/*.pkl
     
     # دیتای خام و پردازش شده (چون با DVC مدیریت می‌شوند)
-    data/raw/IMDB-Dataset.csv
+    data/raw/IMDB Dataset.csv
     data/processed/*
     
     # فایل‌های موقت داکر و سیستم‌عامل
