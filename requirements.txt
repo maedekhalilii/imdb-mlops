@@ -1,6 +1,21 @@
+# کتابخانه‌های قبلی (هفته اول)
 fastapi
 uvicorn
-scikit-learn
+pydantic
+
+# کتابخانه‌های جدید (هفته دوم)
 pandas
+numpy
+scikit-learn
 nltk
+prefect
+mlflow
 joblib
+pyyaml
+matplotlib
+seaborn
+pytest
+
+# ابزارهای کمکی
+python-multipart
+typing-extensions
