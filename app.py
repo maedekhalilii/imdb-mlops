@@ -19,19 +19,10 @@ def clean_text(text):
 def home():
     return {"message": "IMDb Sentiment API"}
 
-
-@app.post("/predict")
-def predict(review: str):
-
-    cleaned = clean_text(review)
-
-    vector = vectorizer.transform([cleaned])
-
-    prediction = model.predict(vector)[0]
-
-    sentiment = "Positive" if prediction == 1 else "Negative"
-
-    return {
-        "review": review,
-        "sentiment": sentiment
-    }
+@app.post("/predict_batch")
+def predict_batch(reviews: list[str]):
+    cleaned_reviews = [clean_text(r) for r in reviews]
+    vectors = vectorizer.transform(cleaned_reviews)
+    predictions = model.predict(vectors)
+    results = ["Positive" if p == 1 else "Negative" for p in predictions]
+    return {"predictions": results}
