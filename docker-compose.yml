@@ -1,4 +1,29 @@
 services:
+
+  # Week 3: FastAPI model serving
+  api:
+    build: .
+    command: uvicorn app:app --host 0.0.0.0 --port 8000 --reload
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./models:/app/models
+      - ./data:/app/data
+    environment:
+      - PYTHONUNBUFFERED=1
+    restart: unless-stopped
+
+  # Week 3: Run benchmark (baseline vs batching vs quantization)
+  benchmark:
+    build: .
+    command: python benchmark_optimization.py
+    volumes:
+      - ./models:/app/models
+      - ./data:/app/data
+    environment:
+      - PYTHONUNBUFFERED=1
+
+  # Week 2: Airflow/Prefect pipeline runner
   pipeline:
     build: .
     command: python src/imdb_pipeline.py
@@ -10,6 +35,7 @@ services:
     environment:
       - MLFLOW_TRACKING_URI=sqlite:///app/mlflow_runs/mlflow.db
 
+  # Week 2: MLflow UI
   mlflow-ui:
     build: .
     command: mlflow server --host 0.0.0.0 --port 5000 --backend-store-uri sqlite:///app/mlflow_runs/mlflow.db --default-artifact-root /app/mlflow_runs/artifacts
@@ -20,3 +46,4 @@ services:
       - ./models:/app/models
     environment:
       - MLFLOW_ALLOW_FILE_STORE=true
+    restart: unless-stopped

@@ -1,9 +1,11 @@
-# کتابخانه‌های قبلی (هفته اول)
+# Week 1 - Environment & API
 fastapi
-uvicorn
+uvicorn[standard]
 pydantic
+python-multipart
+typing-extensions
 
-# کتابخانه‌های جدید (هفته دوم)
+# Week 2 - Data & Pipelines
 pandas
 numpy
 scikit-learn
@@ -16,6 +18,5 @@ matplotlib
 seaborn
 pytest
 
-# ابزارهای کمکی
-python-multipart
-typing-extensions
+# Week 3 - Serving & Optimization (no new packages needed;
+# batching and quantization use scikit-learn + numpy already above)
