@@ -54,39 +54,174 @@ def tokenize_text(df):
 
 @task
 def train_model(df):
-    # استفاده از پارامترهای هایپرپارامتری از کانفیگ
-    vectorizer = TfidfVectorizer(max_features=config['params']['max_features'])
-    X = vectorizer.fit_transform(df["review"])
-    
-    df["sentiment"] = df["sentiment"].map({"positive": 1, "negative": 0})
 
-    X_train, X_test, y_train, y_test = train_test_split(
-        X,
-        df["sentiment"],
-        test_size=config['params']['test_size'],
-        random_state=config['params']['random_state']
-    )
+    with mlflow.start_run():
 
-    model = LogisticRegression()
-    model.fit(X_train, y_train)
+        # Parameters
+        max_features = config['params']['max_features']
+        test_size = config['params']['test_size']
+        random_state = config['params']['random_state']
 
-    predictions = model.predict(X_test)
-    accuracy = accuracy_score(y_test, predictions)
-    print(f"Model Training Completed. Accuracy: {accuracy:.4f}")
+        mlflow.log_param("max_features", max_features)
+        mlflow.log_param("test_size", test_size)
+        mlflow.log_param("random_state", random_state)
 
-    # --- مدیریت ذخیره‌سازی در پوشه Models طبق کانفیگ ---
-    model_dir = config['paths']['model_dir']
-    os.makedirs(model_dir, exist_ok=True) # ساخت پوشه اگر وجود نداشت
+        # Vectorizer
+        vectorizer = TfidfVectorizer(
+            max_features=max_features
+        )
 
-    model_save_path = os.path.join(model_dir, config['paths']['model_name'])
-    vec_save_path = os.path.join(model_dir, config['paths']['vectorizer_name'])
+        X = vectorizer.fit_transform(
+            df["review"]
+        )
 
-    joblib.dump(model, model_save_path)
-    joblib.dump(vectorizer, vec_save_path)
-    
-    print(f"Artifacts saved successfully in '{model_dir}' folder.")
-    return model, vectorizer
+        df["sentiment"] = df["sentiment"].map({
+            "positive": 1,
+            "negative": 0
+        })
 
+        X_train, X_test, y_train, y_test = train_test_split(
+            X,
+            df["sentiment"],
+            test_size=test_size,
+            random_state=random_state
+        )
+
+        # Model
+        model = LogisticRegression()
+
+        model.fit(
+            X_train,
+            y_train
+        )
+
+        predictions = model.predict(
+            X_test
+        )
+
+        # Metrics
+        accuracy = accuracy_score(
+            y_test,
+            predictions
+        )
+
+        precision = precision_score(
+            y_test,
+            predictions
+        )
+
+        recall = recall_score(
+            y_test,
+            predictions
+        )
+
+        f1 = f1_score(
+            y_test,
+            predictions
+        )
+
+        print(
+            f"Model Training Completed. Accuracy: {accuracy:.4f}"
+        )
+
+        mlflow.log_metric(
+            "accuracy",
+            accuracy
+        )
+
+        mlflow.log_metric(
+            "precision",
+            precision
+        )
+
+        mlflow.log_metric(
+            "recall",
+            recall
+        )
+
+        mlflow.log_metric(
+            "f1_score",
+            f1
+        )
+
+        # Confusion Matrix
+        cm = confusion_matrix(
+            y_test,
+            predictions
+        )
+
+        plt.figure(
+            figsize=(6, 5)
+        )
+
+        sns.heatmap(
+            cm,
+            annot=True,
+            fmt="d"
+        )
+
+        plt.xlabel("Predicted")
+        plt.ylabel("Actual")
+        plt.title("Confusion Matrix")
+
+        cm_path = "confusion_matrix.png"
+
+        plt.savefig(cm_path)
+
+        plt.close()
+
+        mlflow.log_artifact(
+            cm_path
+        )
+
+        # Save Artifacts
+        model_dir = config['paths']['model_dir']
+
+        os.makedirs(
+            model_dir,
+            exist_ok=True
+        )
+
+        model_save_path = os.path.join(
+            model_dir,
+            config['paths']['model_name']
+        )
+
+        vec_save_path = os.path.join(
+            model_dir,
+            config['paths']['vectorizer_name']
+        )
+
+        joblib.dump(
+            model,
+            model_save_path
+        )
+
+        joblib.dump(
+            vectorizer,
+            vec_save_path
+        )
+
+        # Log Artifacts
+        mlflow.log_artifact(
+            model_save_path
+        )
+
+        mlflow.log_artifact(
+            vec_save_path
+        )
+
+        # Log Model
+        mlflow.sklearn.log_model(
+            model,
+            artifact_path="sentiment_model"
+        )
+
+        print(
+            f"Artifacts saved successfully in '{model_dir}' folder."
+        )
+
+        return model, vectorizer
 @task
 def test_sentence(model, vectorizer):
     sentence = input("\nEnter a review for testing: ")

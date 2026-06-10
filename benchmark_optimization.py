@@ -9,7 +9,7 @@ from sklearn.metrics import accuracy_score
 # --- تنظیمات و بارگذاری ---
 MODEL_PATH = "models/sentiment_model.pkl"
 VEC_PATH = "models/tfidf_vectorizer.pkl"
-DATA_PATH = "data/raw/IMDB Dataset.csv"
+DATA_PATH = "data/raw/IMDB-Dataset.csv"
 
 def clean_text(text):
     text = text.lower()
