@@ -1,0 +1,4 @@
+{"prediction_id": "cf32f2c2-04ef-49fc-b814-fb6a50e450d6", "timestamp": "2026-06-12T14:14:32.197437+00:00", "review": "This movie was great!", "text_length": 20, "word_count": 4, "unknown_ratio": 0.0, "sentiment": "positive", "latency_ms": 12.65}
+{"prediction_id": "982f8e97-e26e-4d2c-87be-ded690345d48", "timestamp": "2026-06-12T14:14:32.233929+00:00", "review": "Excellent film.", "text_length": 14, "word_count": 2, "unknown_ratio": 0.0, "sentiment": "positive", "latency_ms": 7.95}
+{"prediction_id": "8cb4027d-d076-446b-a97c-e87bd49b1b08", "timestamp": "2026-06-12T14:14:32.272861+00:00", "review": "", "text_length": 0, "word_count": 0, "unknown_ratio": 0.0, "sentiment": "negative", "latency_ms": 2.52}
+{"prediction_id": "ed605fda-80a4-43d5-a4fb-6d682e1fdc86", "timestamp": "2026-06-12T14:14:32.399241+00:00", "review": "I loved it!", "text_length": 10, "word_count": 3, "unknown_ratio": 0.3333, "sentiment": "positive", "latency_ms": 2.18}

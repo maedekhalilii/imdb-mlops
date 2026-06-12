@@ -1,0 +1,32 @@
+name: CI Pipeline
+
+on:
+  push:
+    branches: [ main, Docker ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  lint-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          pip install --upgrade pip
+          pip install fastapi uvicorn scikit-learn joblib numpy pandas httpx pytest flake8
+
+      - name: Lint with flake8
+        run: flake8 app.py drift/ --max-line-length=100 --ignore=E501,W503
+        continue-on-error: true
+
+      - name: Run tests
+        run: pytest tests/ -v --tb=short

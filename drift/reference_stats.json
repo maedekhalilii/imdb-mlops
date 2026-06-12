@@ -1,0 +1,14 @@
+{
+  "text_length": {
+    "mean": 1253.437,
+    "std": 959.8464
+  },
+  "word_count": {
+    "mean": 227.945,
+    "std": 170.3725
+  },
+  "unknown_ratio": {
+    "mean": 0.1448,
+    "std": 0.0473
+  }
+}

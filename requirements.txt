@@ -18,5 +18,9 @@ matplotlib
 seaborn
 pytest
 
-# Week 3 - Serving & Optimization (no new packages needed;
-# batching and quantization use scikit-learn + numpy already above)
+# Week 3 - Serving & Optimization
+# batching and quantization use scikit-learn + numpy already above
+
+# Week 4 - Monitoring, Drift Detection & CI
+httpx
+flake8
