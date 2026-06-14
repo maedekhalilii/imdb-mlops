@@ -1,21 +1,49 @@
 services:
-  postgres:
-    image: postgres:13
-    environment:
-      POSTGRES_USER: airflow
-      POSTGRES_PASSWORD: airflow
-      POSTGRES_DB: airflow
 
-  airflow:
-    image: apache/airflow:2.9.0
-    depends_on:
-      - postgres
-    environment:
-      AIRFLOW__CORE__EXECUTOR: SequentialExecutor
-      AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@postgres/airflow
-    volumes:
-      - ./dags:/opt/airflow/dags
-      - ../models:/opt/airflow/models
+  # Week 3: FastAPI model serving
+  api:
+    build: .
+    command: uvicorn app:app --host 0.0.0.0 --port 8000 --reload
     ports:
-      - "8080:8080"
-    command: standalone
+      - "8000:8000"
+    volumes:
+      - ./models:/app/models
+      - ./data:/app/data
+    environment:
+      - PYTHONUNBUFFERED=1
+    restart: unless-stopped
+
+  # Week 3: Run benchmark (baseline vs batching vs quantization)
+  benchmark:
+    build: .
+    command: python benchmark_optimization.py
+    volumes:
+      - ./models:/app/models
+      - ./data:/app/data
+    environment:
+      - PYTHONUNBUFFERED=1
+
+  # Week 2: Airflow/Prefect pipeline runner
+  pipeline:
+    build: .
+    command: python src/imdb_pipeline.py
+    volumes:
+      - ./models:/app/models
+      - ./mlflow_runs:/app/mlflow_runs
+      - ./data:/app/data
+      - ./config:/app/config
+    environment:
+      - MLFLOW_TRACKING_URI=sqlite:///app/mlflow_runs/mlflow.db
+
+  # Week 2: MLflow UI
+  mlflow-ui:
+    build: .
+    command: mlflow server --host 0.0.0.0 --port 5000 --backend-store-uri sqlite:///app/mlflow_runs/mlflow.db --default-artifact-root /app/mlflow_runs/artifacts
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./mlflow_runs:/app/mlflow_runs
+      - ./models:/app/models
+    environment:
+      - MLFLOW_ALLOW_FILE_STORE=true
+    restart: unless-stopped
