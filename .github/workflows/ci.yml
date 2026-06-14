@@ -30,6 +30,4 @@ jobs:
 
       - name: Run tests
         run: pytest tests/ -v --tb=short
-      - name: Run Intentional Failed Test
-        run: |
-          python -c "assert 1 == 2"
+     
