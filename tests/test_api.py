@@ -123,3 +123,4 @@ def test_vectorizer_has_vocabulary():
     vec = joblib.load("models/tfidf_vectorizer.pkl")
     assert hasattr(vec, "vocabulary_")
     assert len(vec.vocabulary_) > 0
+ 
