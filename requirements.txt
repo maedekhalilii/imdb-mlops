@@ -1,10 +1,26 @@
+# Week 1 - Environment & API
 fastapi
-uvicorn
-scikit-learn
+uvicorn[standard]
+pydantic
+python-multipart
+typing-extensions
+
+# Week 2 - Data & Pipelines
 pandas
-nltk
-joblib
 numpy
-scipy
+scikit-learn
+nltk
 prefect
+mlflow
+joblib
 pyyaml
+matplotlib
+seaborn
+pytest
+
+# Week 3 - Serving & Optimization
+# batching and quantization use scikit-learn + numpy already above
+
+# Week 4 - Monitoring, Drift Detection & CI
+httpx
+flake8
