@@ -9,7 +9,7 @@ from pathlib import Path
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 
-MODEL_PATH = "models/sentiment_model_quantized.pkl"
+MODEL_PATH = "models/sentiment_model.pkl"
 VEC_PATH = "models/tfidf_vectorizer.pkl"
 PREDICTIONS_LOG = "logs/predictions.jsonl"
 FEEDBACK_LOG = "logs/feedback.jsonl"
