@@ -89,7 +89,7 @@ def predict(data: ReviewRequest):
     try:
         sentiment = parse_prediction(model.predict(vector)[0])
     except Exception:
-        sentiment = "neutral"
+        sentiment = "negative"
 
     latency_ms = round((time.time() - start) * 1000, 2)
 
@@ -118,7 +118,7 @@ def predict_batch(data: BatchRequest):
     try:
         results = [parse_prediction(p) for p in model.predict(vectors)]
     except Exception:
-        results = ["neutral"] * len(data.reviews)
+        results = ["negative"] * len(data.reviews)
 
     latency_ms = round((time.time() - start) * 1000, 2)
     return {"count": len(results), "results": results, "latency_ms": latency_ms}
